@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" placeholder="Tematica" id="iTematica">
+    <button onclick="buscar()">Buscar</button>
+    <div id="contenedor">
+
+    </div>
+    <script>
+        const tematicas = [
+            {
+                id: 1,
+                tematica: 'Accion',
+                peliculas: [
+                    {
+                        nombre: 'The Mechanic'
+                    },
+                    {
+                        nombre: 'The Mechanic 2'
+                    },
+                    {
+                        nombre: 'El protector'
+                    }
+                ]
+            },
+            {
+                id: 2,
+                tematica: 'Comedia',
+                peliculas: [
+                    {
+                        nombre: '8 Apellidos Vascos'
+                    },
+                    {
+                        nombre: '8 Apellidos Catalanes'
+                    },
+                    {
+                        nombre: 'La fiesta de las salchichas'
+                    }
+                ]
+            },
+            {
+                id: 3,
+                tematica: 'Terror',
+                peliculas: [
+                    {
+                        nombre: 'La Monja'
+                    },
+                    {
+                        nombre: 'Insidious'
+                    },
+                    {
+                        nombre: 'SAW 1'
+                    }
+                ]
+            },
+
+        ]
+        function buscar(){
+            const tematica = document.getElementById('iTematica').value
+            const listadoFiltrado = tematicas.filter(elemento => elemento.tematica == tematica);
+            actualizarListado(listadoFiltrado);
+
+            
+        }
+        function actualizarListado (listadoFiltrado){
+            const contenedor = document.getElementById('contenedor');
+            contenedor.innerHTML = ''
+            const { peliculas } = listadoFiltrado[0];
+            const lista = document.createElement('ul');
+            peliculas.map(el => {
+                let elementoLista = document.createElement('li');
+                elementoLista.innerHTML = el.nombre;
+                lista.appendChild(elementoLista);
+            })
+            contenedor.appendChild(lista);
+
+
+        }
+    </script>
+</body>
+</html>
