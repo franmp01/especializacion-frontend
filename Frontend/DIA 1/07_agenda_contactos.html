@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Agenda de Contactos</h1>
+    <input type="text" id="nombre" placeholder="Nombre">
+    <button onclick="agregarContacto()">Agregar Contacto</button>
+    <br><br>
+    <button onclick="mostrarContactos()">Mostrar Contactos</button>
+    <h2>Lista de Contactos</h2>
+    <ul id="listaContactos"></ul>
+    <script>
+        const contactos = []
+        function agregarContacto(){
+            const contacto = document.getElementById('nombre').value
+            if(contacto === ''){
+                alert('Por favor ingrese un nombre')
+            }
+            else{
+                if(contactos.length > 0){
+                        if(contactos.filter(contactoArray => contactoArray === contacto).length > 0){
+                           alert('El contacto ya existe');
+                           document.getElementById('nombre').value = '' 
+                        }
+                        else{
+                            contactos.push(contacto)
+                            alert('Contacto agregado')
+                            document.getElementById('nombre').value = ''
+                        }
+                }
+                else{
+                    contactos.push(contacto)
+                    alert('Contacto agregado')
+                    document.getElementById('nombre').value = ''
+                }
+
+                mostrarContactos()
+            }
+
+
+        }
+        function mostrarContactos(){
+            const lista = document.getElementById('listaContactos')
+            lista.innerHTML = ''
+            for(let i=0; i<contactos.length; i++){
+                const li = document.createElement('li')
+                li.textContent = contactos[i]
+                lista.appendChild(li)
+            }
+        }
+
+    </script>
+</body>
+</html>
