@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniCalculadora</title>
+</head>
+<body>
+    <!--Se definen los botones para sumar y multiplicar-->
+    <button onclick="sumar()">Sumar</button>
+    <button onclick="multiplicarNumeros()">Multiplicar</button>
+    <button onclick="factorial()">Factorial</button>
+
+    <script>
+        function sumar(){
+            //defino variables, es como Definir variable..
+            let numero1;
+            let numero2;
+            let resultado;
+            //solicitar la introducción de números, esta instrucción es igual que Leer variable...
+            numero1 = prompt('Introduce el primer numero');
+            numero2 = prompt('Introduce el segundo numero');
+            /*
+            Las variables están recogidas como tipo cadena.
+            Para poder convertir las variables a número, se utiliza parseInt(variable)
+            */
+            resultado = parseInt(numero1) + parseInt(numero2);
+            alert('El resultado de la suma es: '+resultado);
+            
+        }
+        function multiplicarNumeros(){
+            //defino variables
+            let numero1;
+            let numero2;
+            let resultado;
+            //solicitar la introducción de números
+            numero1 = prompt('Introduce el primer numero');
+            numero2 = prompt('Introduce el segundo numero');
+            resultado = parseInt(numero1) * parseInt(numero2);
+            alert('El resultado de la multiplicacion es: '+resultado);
+        }
+        function factorial(){
+            let numero1;
+            let factorial=1;
+            numero1 = parseInt(prompt('Introduce un numero'))
+            for(let i=1; i<=numero1; i++){
+                //atajo : factorial*=i es igual que factorial = factorial*i
+                factorial=factorial*i
+            }
+            alert('El factorial es: '+factorial)
+        }
+    </script>
+</body>
+</html>
+

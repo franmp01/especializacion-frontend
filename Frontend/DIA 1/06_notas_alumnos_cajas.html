@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="añadirNota()">Nueva nota</button>
+    <input type="number" id="nota">
+    <br>
+    <button onclick="totalAprobados()">Aprobados</button>
+    <button onclick="notaMedia()">Nota media</button>
+    <button onclick="notaMasAlta()">Nota mas alta</button>
+    <button onclick="notaMasBaja()">Nota mas baja</button>
+
+    <div id="contenedor">
+
+    </div>
+
+    
+    <script>
+        //array con notas
+        let notas = [7,8,2,5,9,1,4,7,9,10,6];
+        //inicializo la cantidad de aprobados en 0
+        let cantidadAprobados = 0;
+        //variables para nota mas baja y nota mas alta
+        notaAlta = 0; //La inicializo en 0 porque es la menor nota posible a comparar
+        notaBaja = 10; //La inicializo en 10 porque es la maxima nota posible a comparar
+        //Obtengo la referencia del contenedor para mostrar los resultados
+        let contenedor = document.getElementById('contenedor')
+        //FUNCIONES
+
+        function totalAprobados(){
+            //Utilizando for..of    ->   valor of notas
+            for(let valor of notas){
+                if(valor>=5){
+                    cantidadAprobados = cantidadAprobados+1;
+                }
+            }
+            contenedor.innerHTML = '<h4>Han aprobado '+cantidadAprobados+' personas.</h4>'
+
+        }
+        function notaMedia(){
+            let total = 0;
+            for(valor of notas){
+                //Se va sumando todas las notas al total
+                total = total+valor;
+            }
+            //La media se calcula dividiendo el total entre la cantidad de notas (longitud del array)
+            let media = total/notas.length
+            contenedor.innerHTML = '<h4>La nota media de la clase es: '+media+'</h4>'
+        }
+        function notaMasAlta(){
+            for(valor of notas){
+                //Si el valor es mayor que la variable almacenada, se le asignará este valor.
+                if(valor>notaAlta){
+                    notaAlta = valor;
+                }
+            }
+            contenedor.innerHTML = '<h4>La nota más alta es: '+notaAlta+'</h4>'
+        }
+        function notaMasBaja(){
+            for(valor of notas){
+                //Si el valor es menor que la variable almacenada, se le asignará este valor.
+                if(valor<notaBaja){
+                    notaBaja = valor;
+                }
+            }
+
+            contenedor.innerHTML = '<h4>La nota más baja es: '+notaBaja+'</h4>'
+        }
+        function añadirNota(){
+            //Declaro la variable nuevaNota
+            let nuevaNota = document.getElementById('nota');
+            let valorNota = parseInt(nuevaNota.value);
+            if(valorNota <=10 && valorNota >=0){
+                //El metodo push añade un valor al array y lo añade en una nueva posición que será la última
+                notas.push(valorNota);
+                console.log(notas)
+                //Las posiciones de un array empiezan desde la posicion 0 hasta la longitud del array -1. 
+                //Obtengo la posicion de la nueva nota, como es la ultima cojo la longitud y le resto 1
+                let posicionNota = notas.length-1;
+                //Muestro el valor de la nota introducida dentro del array
+                contenedor.innerHTML= '<h4> La nota añadida es: '+notas[posicionNota]+'</h4>';
+                
+
+            }
+            else{
+                contenedor.innerHTML= '<h4> Error: La nota no está entre 0 y 10 </h4>';
+                nuevaNota.value=""
+            }
+
+
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="sumaPares()">Suma pares</button>
+    <script>
+        function sumaPares(){
+            //Pido los datos al usuario
+            let num1 = parseInt(prompt('Escribe un numero'));
+            let num2 = parseInt(prompt('Escribe otro numero'));
+            let suma=0;
+            //Variables para decidir el orden
+            let contador;
+            let numFinal;
+
+            //Compruebo que numero es mayor para decidir el orden
+            if(num1>num2){
+                //Si el numero1 es mayor, el contador empezará desde el numero2 hasta el numero1
+                contador = num2,
+                final = num1;
+            }
+            else{
+                //Si el numero2 es mayor, el contador empezará desde el numero1 hasta el numero2
+                contador = num1;
+                final = num2;
+            }
+            for(let i=contador; i<=final; i++){
+                //Si el contador es par, se le sumará al total
+                if(i%2==0){
+                    suma+=i
+                }
+            }
+            
+            alert('La suma de los numeros pares comprendidos entre los numeros escritos es: '+suma)
+        }
+    </script>
+</body>
+</html>
