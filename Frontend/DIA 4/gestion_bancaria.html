@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Bancaria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <header class="bg-blue-500 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <label class="flex items-center">
+                <span class="mr-2">Saldo inicial:</span>
+                <input type="text" id="iSaldo" class="p-2 rounded-md border border-gray-300">
+            </label>
+            <button onclick="grabar()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md">
+                Grabar
+            </button>
+        </div>
+    </header>
+    <main class="container mx-auto p-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div class="bg-white p-4 rounded-md shadow-md">
+                <label class="block mb-2">Ingresar dinero</label>
+                <input type="text" id="iIngreso" class="p-2 w-full rounded-md border border-gray-300 mb-2">
+                <button onclick="ingresar()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full">
+                    Ingresar
+                </button>
+            </div>
+            <div class="bg-white p-4 rounded-md shadow-md">
+                <label class="block mb-2">Retirar dinero</label>
+                <input type="text" id="iRetirar" class="p-2 w-full rounded-md border border-gray-300 mb-2">
+                <button onclick="retirar()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md w-full">
+                    Retirar
+                </button>
+            </div>
+        </div>
+        <div class="bg-white p-4 rounded-md shadow-md">
+            <h2 class="text-xl font-bold mb-4">Saldo y Movimientos</h2>
+            <div class="mb-4">
+                <h3 class="text-lg font-semibold">Saldo: <b id="saldo" class="text-green-500"></b></h3>
+            </div>
+            <div id="contenedorMovimientos" class="space-y-2">
+                <!-- Movimientos se actualizarán aquí -->
+            </div>
+        </div>
+    </main>
+    <script>
+        let saldo = 0;
+        let movimientos = [];
+        function grabar(){
+            let inputSaldo = document.getElementById('iSaldo')
+            saldo = parseInt(inputSaldo.value)
+            inputSaldo.value = ""
+            actualizarSaldo()
+        }
+        function ingresar(){
+            let inputIngreso = document.getElementById('iIngreso');
+            saldo += parseInt(inputIngreso.value)
+            //añado el movimiento
+            let nuevoIngreso = ['Ingreso', inputIngreso.value]
+            movimientos.push(nuevoIngreso)
+            //vacío el input
+            inputIngreso.value = ""
+            actualizarSaldo()
+            actualizarMovimientos()
+            
+        }
+        function retirar(){
+            let inputRetirar = document.getElementById('iRetirar');
+            saldo -= parseInt(inputRetirar.value);
+            //añado el movimiento
+            let nuevaExtraccion = ['Extracción', inputRetirar.value]
+            movimientos.push(nuevaExtraccion)
+            //vacío el input
+            inputRetirar.value = ""
+            actualizarSaldo()
+            actualizarMovimientos()
+        }
+        function actualizarMovimientos(){
+            let contenedorMovimientos = document.getElementById('contenedorMovimientos')
+            let html = ""
+            movimientos.forEach(movimiento =>{
+                let textoMovimiento = `<h4>${movimiento[0] == 'Ingreso' ? 'Ingreso' : 'Extracción'}: ${movimiento[1]}€</h4>`
+                html+=textoMovimiento
+                
+            })
+            contenedorMovimientos.innerHTML = html;
+        }
+        function actualizarSaldo(){
+            let elementoSaldo = document.getElementById('saldo')
+            elementoSaldo.innerHTML = saldo+"€";
+            if (saldo < 0) {
+                elementoSaldo.classList.remove('text-green-500');
+                elementoSaldo.classList.add('text-red-500');
+            } else {
+                elementoSaldo.classList.remove('text-red-500');
+                elementoSaldo.classList.add('text-green-500');
+            }
+        }
+        
+
+
+    
+
+    </script>
+</body>
+</html>
