@@ -49,6 +49,14 @@
         let saldo = 0;
         let movimientos = [];
         function grabar(){
+            if(saldo < 0){
+                alert("No puedes grabar un saldo negativo")
+                return
+            }
+            if(saldo == 0){
+                alert("No puedes grabar un saldo vacío")
+                return
+            }
             let inputSaldo = document.getElementById('iSaldo')
             saldo = parseInt(inputSaldo.value)
             inputSaldo.value = ""
@@ -56,7 +64,16 @@
         }
         function ingresar(){
             let inputIngreso = document.getElementById('iIngreso');
+            if(parseInt(inputIngreso.value) < 0){
+                alert("No puedes ingresar una cantidad negativa")
+                return
+            }
+            if(inputIngreso.value == ""){
+                alert("No puedes ingresar una cantidad vacía")
+                return
+            }
             saldo += parseInt(inputIngreso.value)
+            
             //añado el movimiento
             let nuevoIngreso = ['Ingreso', inputIngreso.value]
             movimientos.push(nuevoIngreso)
@@ -67,6 +84,10 @@
             
         }
         function retirar(){
+            if(saldo <= 0){
+                alert("No puedes retirar dinero si no tienes saldo")
+                return
+            }
             let inputRetirar = document.getElementById('iRetirar');
             saldo -= parseInt(inputRetirar.value);
             //añado el movimiento
