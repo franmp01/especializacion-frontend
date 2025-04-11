@@ -7,10 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">
-    <header class="bg-blue-500 text-white p-4">
+    <header class="bg-blue-500 font-bold p-4">
         <div class="container mx-auto flex justify-between items-center">
             <label class="flex items-center">
-                <span class="mr-2">Saldo inicial:</span>
+                <span class="mr-2 text-white">Saldo inicial:</span>
                 <input type="text" id="iSaldo" class="p-2 rounded-md border border-gray-300">
             </label>
             <button onclick="grabar()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md">
@@ -81,7 +81,7 @@
             let contenedorMovimientos = document.getElementById('contenedorMovimientos')
             let html = ""
             movimientos.forEach(movimiento =>{
-                let textoMovimiento = `<h4>${movimiento[0] == 'Ingreso' ? 'Ingreso' : 'Extracción'}: ${movimiento[1]}€</h4>`
+                let textoMovimiento = `<h4><b>${movimiento[0] == 'Ingreso' ? 'Ingreso' : 'Extracción'}: ${movimiento[0] == 'Extracción' ? "-"+movimiento[1] : "+"+movimiento[1]}€</b></h4>`
                 html+=textoMovimiento
                 
             })
