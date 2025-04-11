@@ -49,15 +49,16 @@
         let saldo = 0;
         let movimientos = [];
         function grabar(){
-            if(saldo < 0){
+            let inputSaldo = document.getElementById('iSaldo')
+            let valorInput = parseInt(inputSaldo.value)
+            if(valorInput < 0){
                 alert("No puedes grabar un saldo negativo")
                 return
             }
-            if(saldo == 0){
+            if(valorInput == 0){
                 alert("No puedes grabar un saldo vacío")
                 return
             }
-            let inputSaldo = document.getElementById('iSaldo')
             saldo = parseInt(inputSaldo.value)
             inputSaldo.value = ""
             actualizarSaldo()
@@ -89,6 +90,11 @@
                 return
             }
             let inputRetirar = document.getElementById('iRetirar');
+            let diferencia = saldo-parseInt(inputRetirar.value)
+            if(diferencia<0){
+                alert('No puedes retirar una cantidad mayor que la que dispones')
+                return;
+            }
             saldo -= parseInt(inputRetirar.value);
             //añado el movimiento
             let nuevaExtraccion = ['Extracción', inputRetirar.value]
