@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador Json</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-100">
+    <div class="m-5">
+        <label>Ingrese una temática: <input class="border border-green-400 rounded-md text-center p-2"  type="text" id="iTematica"></label>
+        <button class="bg-green-500 border border-green-800 rounded-md p-2 " onclick="buscar()">Buscar</button>
+    </div>
+
+    <div id="container" class="m-5 text-center bg-green-100 border rounded-md">
+        
+    </div>
+    <script>
+        let tematicas = [
+            {
+                'tematica': 'deportes',
+                'enlace': 'www.marca.com'
+            },
+            {
+                'tematica': 'social',
+                'enlace': 'www.instagram.com'
+            },
+            {
+                'tematica': 'musica',
+                'enlace': 'www.spotify.com'
+            },
+            {
+                'tematica': 'cocina',
+                'enlace': 'www.fogones.com'
+            }
+        ]
+        function buscar(){
+            let inputTematica = document.getElementById('iTematica');
+            let valor = inputTematica.value
+            let contenedor = document.getElementById('container');
+            let resultados = tematicas.filter(elemento => elemento.tematica == valor.toLowerCase())[0];
+            contenedor.innerHTML = 
+            `
+            <a href="https://${resultados.enlace}" class="text-blue-500"><u>${resultados.enlace}</u></a>
+            `
+
+            
+
+        }
+
+
+    </script>
+</body>
+</html>
