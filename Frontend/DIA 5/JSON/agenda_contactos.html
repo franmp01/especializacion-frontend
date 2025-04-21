@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <div class="container mx-auto p-6">
+        <h1 class="text-2xl font-bold text-center mb-6">Agenda de Contactos</h1>
+        <form class="bg-white p-6 rounded-md shadow-md mb-6">
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2">Nombre:</label>
+                <input type="text" id="inombre" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2">Email:</label>
+                <input type="email" id="iemail" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2">Teléfono:</label>
+                <input type="tel" id="itelefono" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full">
+                Guardar
+            </button>
+        </form>
+        <div class="text-center mb-6">
+            <button onclick="mostrarContactos()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md">
+                Mostrar contactos
+            </button>
+        </div>
+
+        <!-- Contenedor de contactos -->
+        <div id="contenedor-contactos" class="bg-white p-6 rounded-md shadow-md">
+            <!-- Los contactos se mostrarán aquí -->
+        </div>
+    </div>
+    <script>
+        let agendaContactos = []
+        //nombre, email, telefono
+        //al visualizar, se deben ver los datos de cada contacto
+        //Botón mostrar que mostrará los datos
+        document.querySelector('form').addEventListener('submit', (e)=>{
+            e.preventDefault()
+            let nombre = document.getElementById('inombre').value
+            let email = document.getElementById('iemail').value
+            let telefono = document.getElementById('itelefono').value
+            guardarContacto(nombre, email, telefono)
+            
+        })
+
+        function guardarContacto(nombre, email, telefono){
+            let nuevoContacto = {
+                nombre,
+                email,
+                telefono
+            }
+            agendaContactos.push(nuevoContacto);
+            document.querySelector('form').reset()
+            console.log(agendaContactos)
+            
+        }
+        function eliminar(contacto){
+            agendaContactos = agendaContactos.filter(elemento => elemento.telefono !== contacto);
+            mostrarContactos()
+        }
+        function mostrarContactos(){
+            let contenedor = document.getElementById('contenedor-contactos');
+            let html = `
+            <table class="table-auto w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border border-gray-300 px-4 py-2 text-left">Nombre</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left">Email</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left">Teléfono</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+            for (let contacto of agendaContactos) {
+            html += `
+            <tr class="hover:bg-gray-100">
+                <td class="border border-gray-300 px-4 py-2">${contacto.nombre}</td>
+                <td class="border border-gray-300 px-4 py-2">${contacto.email}</td>
+                <td class="border border-gray-300 px-4 py-2">${contacto.telefono}</td>
+                <td class="border border-red-500 px-4 py-2 bg-red-600 m-auto text-center"><button onclick="eliminar('${contacto.telefono}')">Eliminar</button></td>
+            </tr>
+            `;
+            }
+            html += `
+                </tbody>
+            </table>
+            `;
+            contenedor.innerHTML=html;
+        }
+    </script>
+</body>
+</html>
