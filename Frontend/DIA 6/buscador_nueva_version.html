@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <div class="container mx-auto p-6">
+        <h1 class="text-2xl font-bold text-center mb-6">Buscador de Temáticas</h1>
+            
+        <!-- Selector de temáticas -->
+        <div class="bg-white p-6 rounded-md shadow-md mb-6">
+            <label for="stematicas" class="block text-sm font-medium mb-2">Selecciona una temática:</label>
+            <select id="stematicas" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4">
+            </select>
+        </div>
+        <div class="bg-white p-6 rounded-md shadow-md">
+            <table id="ttematicas" class="table-auto w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border border-gray-300 px-4 py-2 text-left">Temática</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left">Dirección</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas se generarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+
+        //LISTADO DE TEMATICAS
+        
+        let tematicas = [
+            {
+                tematica: "Deportes",
+                direccion: "www.marca.com"
+            },
+            {
+                tematica: "Cocina",
+                direccion: "www.recetas.com"
+            },
+            {
+                tematica: "Libros",
+                direccion: "www.goodreads.com"
+            },
+            {
+                tematica: "Juegos",
+                direccion: "www.ign.com"
+            },
+            {
+                tematica: "Música",
+                direccion: "www.spotify.com"
+            }
+        ]
+
+        //FUNCION PARA RELLENAR LA TABLA CON LA LISTA ORIGINAL
+
+        function rellenarTabla(){
+            let html = `<tr class="bg-gray-200"><th class="border border-gray-300 px-4 py-2 text-left">Temática</th><th class="border border-gray-300 px-4 py-2 text-left">Dirección</th></tr>`;
+                
+            for(let tem of tematicas){
+                html += `<tr class="hover:bg-gray-100">
+                            <td class="border border-gray-300 px-4 py-2">${tem.tematica}</td>
+                            <td class="border border-gray-300 px-4 py-2"><a href="https://${tem.direccion}" class="text-blue-500 hover:underline" target="_blank">${tem.direccion}</a></td>
+                         </tr>`;
+            }
+            document.getElementById('ttematicas').innerHTML = html;
+        }
+
+        //FUNCION PARA ACTUALIZAR LA TABLA A PARTIR DE UNA LISTA PASADA POR PARAMETRO
+
+        function actualizarTabla(tematicasFiltradas){
+            let html = `<tr class="bg-gray-200"><th class="border border-gray-300 px-4 py-2 text-left">Temática</th><th class="border border-gray-300 px-4 py-2 text-left">Dirección</th></tr>`;
+            for (let tem of tematicasFiltradas) {
+                html += `<tr class="hover:bg-gray-100">
+                            <td class="border border-gray-300 px-4 py-2">${tem.tematica}</td>
+                            <td class="border border-gray-300 px-4 py-2"><a href="https://${tem.direccion}" class="text-blue-500 hover:underline" target="_blank">${tem.direccion}</a></td>
+                         </tr>`;
+            }
+            document.getElementById('ttematicas').innerHTML = html;
+        }
+
+        //AL CARGARSE EL DOM SE GENERAN LAS OPCIONES DEL SELECT Y SE RELLENA LA TABLA CON TODAS LAS OPCIONES
+
+        window.addEventListener('DOMContentLoaded', ()=>{
+            let html = '<option>Todas</option>'
+            for(let tem of tematicas){
+                
+                html+=`<option value="${tem.direccion}">${tem.tematica}</option>`
+            }
+            document.getElementById('stematicas').innerHTML = html
+            rellenarTabla()
+
+            
+        })
+
+        //AL CAMBIAR OPCIÓN SE ACTUALIZA LA TABLA
+
+        document.getElementById('stematicas').addEventListener('change', ()=>{
+            let tematica = document.getElementById('stematicas').selectedOptions[0].textContent
+
+            //SI SE SELECCIONA LA OPCION TODAS SE RELLENA LA TABLA CON TODAS LAS OPCIONES
+
+            if(tematica == 'Todas'){
+                rellenarTabla()
+            }
+            else{
+
+                //SI NO, SE FILTRA LA LISTA Y SE ACTUALIZA LA TABLA SOLO CON LA LISTA FILTRADA
+
+                let tematicasFiltradas = tematicas.filter(el => el.tematica == tematica)
+                actualizarTabla(tematicasFiltradas);
+            }
+            
+            
+        })
+    </script>
+</body>
+</html>
