@@ -33,7 +33,7 @@
     <script>
 
         //LISTADO DE TEMATICAS
-        
+
         let tematicas = [
             {
                 tematica: "Deportes",
@@ -90,7 +90,7 @@
             let html = '<option>Todas</option>'
             for(let tem of tematicas){
                 
-                html+=`<option value="${tem.direccion}">${tem.tematica}</option>`
+                html+=`<option>${tem.tematica}</option>`
             }
             document.getElementById('stematicas').innerHTML = html
             rellenarTabla()
@@ -101,6 +101,7 @@
         //AL CAMBIAR OPCIÓN SE ACTUALIZA LA TABLA
 
         document.getElementById('stematicas').addEventListener('change', ()=>{
+
             let tematica = document.getElementById('stematicas').selectedOptions[0].textContent
 
             //SI SE SELECCIONA LA OPCION TODAS SE RELLENA LA TABLA CON TODAS LAS OPCIONES
