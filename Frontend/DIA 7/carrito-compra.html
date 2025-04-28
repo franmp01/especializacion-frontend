@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compra</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <div class="container mx-auto p-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Listado de productos y filtro -->
+            <div class="lg:col-span-2">
+                <!-- Filtro por categoría -->
+                <div class="bg-white p-6 rounded-md shadow-md mb-6">
+                    <h1 class="text-xl font-bold mb-4">Filtro por categoría</h1>
+                    <select id="scategoria" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <!-- Opciones se rellenarán dinámicamente -->
+                    </select>
+                </div>
+
+                <!-- Listado de productos -->
+                <div class="bg-white p-6 rounded-md shadow-md">
+                    <h1 class="text-xl font-bold mb-4">Listado de productos</h1>
+                    <table id="lproductos" class="table-auto w-full border-collapse border border-gray-300">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="border border-gray-300 px-4 py-2 text-left">Producto</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Categoría</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Precio</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Productos se rellenarán dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Carrito -->
+            <div class="bg-white p-6 rounded-md shadow-md overflow-x-auto">
+                <h1 class="text-xl font-bold mb-4">Carrito</h1>
+                <table class="table-auto w-full border-collapse border border-gray-300 text-sm">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border border-gray-300 px-2 py-1 text-left">Producto</th>
+                            <th class="border border-gray-300 px-2 py-1 text-left">Precio</th>
+                            <th class="border border-gray-300 px-2 py-1 text-center">Cantidad</th>
+                            <th class="border border-gray-300 px-2 py-1 text-center">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lcarrito">
+                        <!-- Productos del carrito se rellenarán dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        let carrito = []
+        let productos = [
+            { nombre: "Camiseta Deportiva", categoria: "Ropa", precio: 25.99 },
+            { nombre: "Pantalón Vaquero", categoria: "Ropa", precio: 49.99 },
+            { nombre: "Zapatillas Running", categoria: "Ropa", precio: 89.99 },
+            { nombre: "Chaqueta Impermeable", categoria: "Ropa", precio: 69.99 },
+            { nombre: "Gorra", categoria: "Ropa", precio: 15.99 },
+
+            { nombre: "Portátil Gaming", categoria: "Electrónica", precio: 999.99 },
+            { nombre: "Auriculares Bluetooth", categoria: "Electrónica", precio: 59.99 },
+            { nombre: "Smartphone", categoria: "Electrónica", precio: 699.99 },
+            { nombre: "Monitor 4K", categoria: "Electrónica", precio: 299.99 },
+            { nombre: "Teclado Mecánico", categoria: "Electrónica", precio: 89.99 },
+
+            { nombre: "Sofá 3 Plazas", categoria: "Muebles", precio: 499.99 },
+            { nombre: "Mesa de Comedor", categoria: "Muebles", precio: 299.99 },
+            { nombre: "Silla de Oficina", categoria: "Muebles", precio: 129.99 },
+            { nombre: "Estantería", categoria: "Muebles", precio: 79.99 },
+            { nombre: "Cama Matrimonial", categoria: "Muebles", precio: 599.99 },
+
+            { nombre: "Manzanas", categoria: "Alimentos", precio: 2.99 },
+            { nombre: "Leche", categoria: "Alimentos", precio: 1.49 },
+            { nombre: "Pan Integral", categoria: "Alimentos", precio: 1.99 },
+            { nombre: "Queso", categoria: "Alimentos", precio: 3.99 },
+            { nombre: "Café", categoria: "Alimentos", precio: 4.99 }
+        ];
+        //Al cargar la página, se rellenan las tablas y el select.
+        window.addEventListener('DOMContentLoaded', () => {
+            rellenarSelect();
+            rellenarListadoProductos();
+        });
+
+        function rellenarSelect() {
+            let selectcategoria = document.getElementById('scategoria');
+            let categorias = [...new Set(productos.map(el => el.categoria))];
+            let html = `<option value="Todas">Todas</option>`;
+            for (let categoria of categorias) {
+                html += `<option value="${categoria}">${categoria}</option>`;
+            }
+            selectcategoria.innerHTML = html;
+        }
+        //Añadir un producto al carrito. Se actualizan ambos listados.
+        function añadirProducto(p){
+            let producto = productos.filter(el => el.nombre == p)[0]
+            producto = {...producto, cantidad: 1}
+            console.log(producto)
+
+            carrito.push(producto)
+            rellenarCarrito()
+            rellenarListadoProductos()
+            
+        }
+        //Eliminar un producto del carrito. Se actualizan ambos listados.
+        function eliminarProducto(p){
+            if(confirm('¿Estás seguro de que quieres eliminar el producto?')){
+                carrito = carrito.filter(el=> el.nombre !== p)
+                rellenarListadoProductos()
+                rellenarCarrito()
+            }
+            
+        }
+        function agregar1(nombre){
+            let producto = carrito.filter(el => el.nombre === nombre)[0];
+            producto.cantidad+=1;
+            carrito = carrito.filter(el => el.nombre !== nombre);
+            carrito.push(producto);
+            rellenarCarrito();
+            rellenarListadoProductos()
+
+        }
+        function quitar1(nombre){
+            let producto = carrito.filter(el => el.nombre === nombre)[0];
+            if(producto.cantidad==1){
+                eliminarProducto(nombre)
+                
+            }
+            else{
+                producto.cantidad-=1;
+                carrito = carrito.filter(el => el.nombre !== nombre);
+                carrito.push(producto)
+            }
+            
+            rellenarCarrito();
+            rellenarListadoProductos()
+        }
+        //Funcion para ir actualizando el carrito.
+        function rellenarCarrito(){
+            let carritoHTML = document.getElementById('lcarrito');
+            carritoHTML.innerHTML = ``
+            let html = ``
+            if(carrito.length>0){
+                for(let producto of carrito){
+                html+=`
+                <tr>
+                <td class="border border-gray-300 px-4 py-2">${producto.nombre}</td>
+                <td class="border border-gray-300 px-4 py-2">${producto.precio}</td>
+                <td class="border border-gray-300 px-4 py-2">${producto.cantidad}</td>
+                <td class="border border-gray-300 px-4 py-2">
+                    <button onclick="agregar1('${producto.nombre}')" class="w-full my-1  bg-gray-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-md">
+                        +
+                    </button>
+                    <button onclick="quitar1('${producto.nombre}')" class="w-full my-1 bg-gray-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded-md">
+                        -
+                    </button>
+                </td>
+                </tr>
+                `
+                }
+                carritoHTML.innerHTML = html;
+            }
+
+        }
+  
+        //Funcion para ir actualizando el listado.
+        function rellenarListadoProductos() {
+            let listadoproductos = document.getElementById('lproductos');
+            let html = `
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border border-gray-300 px-4 py-2 text-left">Producto</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left">Categoría</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left">Precio</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+            for (let producto of productos) {
+                html += `
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">${producto.nombre}</td>
+                    <td class="border border-gray-300 px-4 py-2">${producto.categoria}</td>
+                    <td class="border border-gray-300 px-4 py-2">${producto.precio}</td>
+                    <td class="border border-gray-300 px-4 py-2">`
+                        if(!carrito.some(item => item.nombre === producto.nombre)){
+                            html+=`
+                            <button id="btn-añadir" onclick="añadirProducto('${producto.nombre}')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-md">
+                                Añadir
+                            </button>` 
+                        }
+                        else{
+                            html+=`
+                            <button id="btn-eliminar" onclick="eliminarProducto('${producto.nombre}')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded-md">
+                                Eliminar
+                            </button>` 
+                        }
+                        
+                    
+                    
+                    html+=`</td>
+                    </tr>`;
+            }
+            html += `</tbody>`;
+            listadoproductos.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
